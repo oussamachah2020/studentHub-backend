@@ -3,7 +3,7 @@ version: '3.9'
 services:
   postgres:
     image: postgres:latest
-    container_name: studentHub_db
+    container_name: studentHub_server
     hostname: postgres
     expose:
       - 5432
@@ -13,7 +13,7 @@ services:
     environment:
       POSTGRES_USER: studentHub
       POSTGRES_PASSWORD: studentHub#2024
-      POSTGRES_DATABASE: studentHub_db
+      POSTGRES_DB: studentHub_db
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
