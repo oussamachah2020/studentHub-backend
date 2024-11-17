@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgres://localhost:5432/studentHub_db
+    url: jdbc:postgresql://localhost:5432/studentHub_db
     username: studentHub
     password: studentHub#2024
     driver-class-name: org.postgresql.Driver
