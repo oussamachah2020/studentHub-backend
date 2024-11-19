@@ -20,6 +20,11 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
+    public String extractUserId(String token) {
+        return extractClaim(token, claims -> claims.get("userId", String.class));
+    }
+
+
     public boolean isValid(String token, UserDetails user) {
         String username = extractUsername(token);
         return (username.equals(user.getUsername()) && !isTokenExpired(token));
@@ -44,15 +49,17 @@ public class JwtService {
 
     public String generateAccessToken(User user) {
         return Jwts.builder()
-                .subject(user.getUsername()) // Or use any other unique field
+                .subject(user.getUsername()) // Set the subject as username
+                .claim("userId", user.getId()) // Add userId as a custom claim
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000)) // 24 hours
                 .signWith(getSigningKey()) // Sign the token
                 .compact();
     }
 
+
     public String generateRefreshToken(User user) {
-        return Jwts.builder().subject(user.getUsername()).issuedAt(new Date(System.currentTimeMillis())).expiration(new Date(System.currentTimeMillis() + 24*60*60*1000)).signWith(getSigningKey()).compact();
+        return Jwts.builder().subject(user.getUsername()).claim("userId", user.getId()).issuedAt(new Date(System.currentTimeMillis())).expiration(new Date(System.currentTimeMillis() + 24*60*60*1000)).signWith(getSigningKey()).compact();
     }
 
     private SecretKey getSigningKey() {

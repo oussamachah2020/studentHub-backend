@@ -40,8 +40,9 @@ public class AuthenticationService {
         user.setFirstName(req.getFirstName());
         user.setLastName(req.getLastName());
         user.setUsername(req.getUsername());
-        user.setPassword(passwordEncoder.encode(req.getPassword()));
+        user.setEmail(req.getEmail());
         user.setRole(req.getRole());
+        user.setPassword(passwordEncoder.encode(req.getPassword()));
 
         // Save the new user
         user = repository.save(user);
