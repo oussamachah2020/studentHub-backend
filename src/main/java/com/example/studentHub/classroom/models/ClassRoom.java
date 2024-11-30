@@ -1,10 +1,12 @@
 package com.example.studentHub.classroom.models;
 
 import com.example.studentHub.auth.models.User;
+import com.example.studentHub.course.models.Course;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Data
@@ -47,4 +49,8 @@ public class ClassRoom implements Serializable {
     @ManyToOne
     @JoinColumn(name = "teacherId", referencedColumnName = "id", nullable = false)
     private User teacher;
+
+    @OneToMany
+    @JoinColumn(name = "courseId", referencedColumnName = "id")
+    private List<Course> courses;
 }

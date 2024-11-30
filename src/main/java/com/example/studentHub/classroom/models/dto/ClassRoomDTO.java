@@ -34,5 +34,4 @@ public class ClassRoomDTO {
         this.name = name;
         this.teacherId = teacherId;
     }
-
 }
