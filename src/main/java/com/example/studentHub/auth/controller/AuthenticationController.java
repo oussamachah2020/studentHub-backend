@@ -23,12 +23,12 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User req) {
+    public ResponseEntity<Object> register(@RequestBody User req) {
         Object response = authenticationService.register(req);
 
         if (response instanceof AuthenticationResponse) {
             // Return a 200 OK response with the AuthenticationResponse
-            return ResponseEntity.ok((AuthenticationResponse) response);
+            return ResponseEntity.ok(response);
         } else if (response instanceof String && response.equals("User already exists")) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         } else {

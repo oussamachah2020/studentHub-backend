@@ -1,5 +1,6 @@
 package com.example.studentHub.auth.models;
 
+import com.example.studentHub.classroom.models.ClassRoom;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,10 +22,6 @@ public class User implements UserDetails, Serializable {
     @Column(name = "id")
     String id;
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     @Column(name = "username")
     String username;
 
@@ -40,8 +37,16 @@ public class User implements UserDetails, Serializable {
     @Column(name = "password")
     String password;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "role")
     Role role;
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
+    private List<ClassRoom> classes;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
