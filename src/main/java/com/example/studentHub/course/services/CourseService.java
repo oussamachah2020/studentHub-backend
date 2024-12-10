@@ -54,7 +54,7 @@ public class CourseService {
         return "Course Deleted Successfully";
     }
 
-    public Course editCourse(CourseDto course) {
+    public void editCourse(CourseDto course) {
         if (course == null) {
             throw new IllegalArgumentException("Course data is required");
         }
@@ -66,7 +66,7 @@ public class CourseService {
         existingCourse.setDescription(course.getDescription());
         existingCourse.setCoverUrl(course.getCoverUrl());
 
-        return courseRepository.save(existingCourse);
+        courseRepository.save(existingCourse);
     }
 
 }

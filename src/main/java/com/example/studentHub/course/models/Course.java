@@ -1,13 +1,15 @@
 package com.example.studentHub.course.models;
 
 import com.example.studentHub.classroom.models.ClassRoom;
+import com.example.studentHub.lesson.models.Lesson;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
-@Entity
 @Data
+@Entity
 @Table(name = "courses")
 public class Course implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -63,10 +65,22 @@ public class Course implements Serializable {
         this.classRoom = classRoom;
     }
 
+    public List<Lesson> getLesson() {
+        return Lesson;
+    }
+
+    public void setLesson(List<Lesson> lesson) {
+        Lesson = lesson;
+    }
+
     @Column(name = "coverUrl")
     String coverUrl;
 
     @ManyToOne
     @JoinColumn(name = "classId", referencedColumnName = "id", nullable = false)
     private ClassRoom classRoom;
+
+    @OneToMany
+    @JoinColumn(name = "lessonId", referencedColumnName = "id")
+    private List<Lesson> Lesson;
 }
