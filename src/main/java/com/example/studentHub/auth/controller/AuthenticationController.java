@@ -2,6 +2,8 @@ package com.example.studentHub.auth.controller;
 
 import com.example.studentHub.auth.models.AuthenticationResponse;
 import com.example.studentHub.auth.models.User;
+import com.example.studentHub.auth.models.dto.AuthDto;
+import com.example.studentHub.auth.models.dto.ProfileDto;
 import com.example.studentHub.auth.services.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,12 +41,8 @@ public class AuthenticationController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody User req) {
-        AuthenticationResponse tokenObject = authenticationService.authenticate(req);
-
-        AuthenticationResponse authResponse = new AuthenticationResponse(tokenObject.getAccessToken(), tokenObject.getRefreshToken());
-
-        return ResponseEntity.ok(authResponse);
+    public ResponseEntity<?> login(@RequestBody AuthDto req) {
+        return authenticationService.authenticate(req);
     }
 
     @PostMapping(path = "/refresh", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,6 +56,12 @@ public class AuthenticationController {
 
         // Return the response as JSON
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<String> updateUserProfile(@RequestBody ProfileDto req) {
+        String message = authenticationService.updateProfile(req);
+        return ResponseEntity.status(200).body(message);
     }
 
     @GetMapping("/user-info") // Add your endpoint path

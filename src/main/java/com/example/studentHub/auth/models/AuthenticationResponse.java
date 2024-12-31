@@ -10,7 +10,7 @@ public class AuthenticationResponse {
     }
 
     // Constructors, getters, and setters
-    public void AuthResponse(String accessToken, String refreshToken) {
+    public void AuthResponse( String accessToken, String refreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
