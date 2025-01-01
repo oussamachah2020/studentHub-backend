@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/studentHub_db
+    url: postgresql://neondb_owner:xrYCe90Ksldm@ep-rapid-river-a2xclf7m-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require
     username: studentHub
     password: studentHub#2024
     driver-class-name: org.postgresql.Driver
