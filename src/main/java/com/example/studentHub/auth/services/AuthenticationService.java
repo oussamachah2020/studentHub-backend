@@ -35,7 +35,6 @@ public class AuthenticationService {
     public Object register(User req) {
         // Check if the user already exists
         Optional<User> existingUser = repository.findByEmail(req.getEmail());
-        String message = "";
         if (existingUser.isPresent()) {
             return "User already exists";
         }
@@ -61,26 +60,13 @@ public class AuthenticationService {
 
     public ResponseEntity<?> authenticate(AuthDto req) {
         // Determine if the input is an email or a username
-        User user;
-        String message;
 
-        if (req.getUsername().contains("@")) {
             // If the input contains "@", assume it's an email
-            user = repository.findByEmail(req.getUsername())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User with this email does not exist."));
+        User user = repository.findByEmail(req.getEmail())
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User with this email does not exist."));
 
-            if(user == null) {
-                return ResponseEntity.status(404).body("User with this e-mail does not exist.");
-            }
-
-        } else {
-            // Otherwise, assume it's a username
-            user = repository.findByUsername(req.getUsername())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User with this username does not exist."));
-
-            if(user == null) {
-                return ResponseEntity.status(404).body("User with this username does not exist.");
-            }
+        if(user == null) {
+            return ResponseEntity.status(404).body("User does not exist.");
         }
 
         // Check if the password is correct
@@ -88,10 +74,11 @@ public class AuthenticationService {
             return ResponseEntity.status(400).body("Invalid password");
         }
 
+
         // Authenticate the user
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), req.getPassword())
-        );
+//        authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(user.getUsername(), req.getPassword())
+//        );
 
         // Generate access and refresh tokens
         String accessToken = jwtService.generateAccessToken(user);
